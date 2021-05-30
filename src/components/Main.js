@@ -47,6 +47,12 @@ const Main = () => {
               <img src="/images/ellipsis.png" alt="..." />
             </button>
           </SharedActor>
+          <Description>Description</Description>
+          <SharedImg>
+            <a>
+              <img src="/images/shared-image.jpg" alt="" />
+            </a>
+          </SharedImg>
         </Article>
       </div>
     </Container>
@@ -152,10 +158,59 @@ const SharedActor = styled.div`
       width: 48px;
       height: 48px;
     }
+    & > div {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      flex-basis: 0;
+      margin-left: 8px;
+      overflow: hidden;
+      span {
+        text-align: left;
+        &:first-child {
+          font-size: 14px;
+          font-weight: 700;
+          color: rgba(0, 0, 0, 1);
+        }
+        &:nth-child(n + 1) {
+          font-size: 12px;
+          color: rgba(0, 0, 0, 0.6);
+        }
+      }
+    }
+  }
+  button {
+    position: absolute;
+    right: 12px;
+    top: 0;
+    background: transparent;
+    border: none;
+    outline: none;
   }
   button {
     img {
       width: 20px;
     }
+  }
+`
+
+const Description = styled.div`
+  padding: 0 16px;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 14px;
+  text-align: left;
+`
+
+const SharedImg = styled.div`
+  margin-top: 8px;
+  width: 100%;
+  display: block;
+  position: relative;
+  background-color: #f9fafb;
+  img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
   }
 `
