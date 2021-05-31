@@ -1,6 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 
+//material-icon
+import ThumbUpIcon from '@material-ui/icons/ThumbUp'
+import CommentIcon from '@material-ui/icons/Comment'
+import ShareIcon from '@material-ui/icons/Share'
+import SendIcon from '@material-ui/icons/Send'
+
 const Main = () => {
   return (
     <Container>
@@ -53,6 +59,39 @@ const Main = () => {
               <img src="/images/shared-image.jpg" alt="" />
             </a>
           </SharedImg>
+          <SocialCounts>
+            <li>
+              <button>
+                <ThumbUpIcon style={{ color: '#70b5f9' }} />
+                <img
+                  src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
+                  alt=""
+                />
+                <span>101</span>
+              </button>
+            </li>
+            <li>
+              <a>75 comments</a>
+            </li>
+          </SocialCounts>
+          <SocialAction>
+            <button>
+              <ThumbUpIcon style={{ color: '#70b5f9' }} />
+              <span>like</span>
+            </button>
+            <button>
+              <CommentIcon style={{ color: '#70b5f9' }} />
+              <span>comment</span>
+            </button>
+            <button>
+              <ShareIcon style={{ color: '#70b5f9' }} />
+              <span>share</span>
+            </button>
+            <button>
+              <SendIcon style={{ color: '#70b5f9' }} />
+              <span>send</span>
+            </button>
+          </SocialAction>
         </Article>
       </div>
     </Container>
@@ -212,5 +251,44 @@ const SharedImg = styled.div`
     object-fit: contain;
     width: 100%;
     height: 100%;
+  }
+`
+
+const SocialCounts = styled.ul`
+  line-height: 1.8;
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  margin: 0 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9e5df;
+  list-style: none;
+  li {
+    margin-right: 5px;
+    font-size: 12px;
+
+    button {
+      display: flex;
+    }
+  }
+`
+const SocialAction = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0;
+  min-height: 40px;
+  padding: 4px 8px;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px;
+    color: #8a66c2;
+    span {
+      padding-left: 2px;
+      align-items: center;
+      justify-content: center;
+    }
   }
 `
