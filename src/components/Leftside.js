@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-const Leftside = () => {
+const Leftside = (props) => {
   return (
     <Container>
       <ArtCard>
@@ -9,7 +10,9 @@ const Leftside = () => {
           <CardBackground />
           <a>
             <Photo />
-            <Link>Welcome, there!</Link>
+            <Link>
+              Welcome, {props.user ? props.user.displayName : 'there'}
+            </Link>
           </a>
           <a>
             <AddPhotoText>Add a photo</AddPhotoText>
@@ -52,7 +55,13 @@ const Leftside = () => {
   )
 }
 
-export default Leftside
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  }
+}
+
+export default connect(mapStateToProps)(Leftside)
 
 const Container = styled.div`
   grid-area: leftside;
