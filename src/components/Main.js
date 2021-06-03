@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import PostModel from './PostModel'
 
@@ -8,14 +8,34 @@ import CommentIcon from '@material-ui/icons/Comment'
 import ShareIcon from '@material-ui/icons/Share'
 import SendIcon from '@material-ui/icons/Send'
 
-const Main = () => {
+const Main = (props) => {
+  const [showModal, setShowModal] = useState('close')
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    if (e.target !== e.currentTarget) {
+      return
+    }
+    switch (showModal) {
+      case 'open':
+        setShowModal('close')
+        break
+      case 'close':
+        setShowModal('open')
+        break
+      default:
+        setShowModal('close')
+        break
+    }
+  }
+
   return (
     <Container>
       <ShareBox>
         share
         <div>
           <img src="/images/user.svg" alt="" />
-          <button>Start a post</button>
+          <button onClick={handleClick}>Start a post</button>
         </div>
         <div>
           <button>
@@ -95,7 +115,7 @@ const Main = () => {
           </SocialAction>
         </Article>
       </div>
-      <PostModel />
+      <PostModel showModal={showModal} handleClick={handleClick} />
     </Container>
   )
 }

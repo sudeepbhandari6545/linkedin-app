@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 //icons
@@ -7,45 +7,64 @@ import PhotoIcon from '@material-ui/icons/Photo'
 import MovieIcon from '@material-ui/icons/Movie'
 import CommentIcon from '@material-ui/icons/Comment'
 
-const PostModel = () => {
-  return (
-    <Container>
-      <Content>
-        <Header>
-          <h2>create a post</h2>
-          <button>
-            <CloseIcon />
-          </button>
-        </Header>
-        <SharedContact>
-          <UserInfo>
-            <img src="/images/user.svg" alt="" />
-            <span>Name</span>
-          </UserInfo>
-        </SharedContact>
+const PostModel = (props) => {
+  const [editorText, setEditorText] = useState('')
 
-        <ShareCreation>
-          <AttachAssets>
-            <AssetButton>
-              {/* //icon */}
-              <PhotoIcon />
-            </AssetButton>
-            <AssetButton>
-              {/* //icon */}
-              <MovieIcon />
-            </AssetButton>
-          </AttachAssets>
-          <ShareComment>
-            <AssetButton>
-              {/* //icon */}
-              <CommentIcon />
-              Anyone
-            </AssetButton>
-          </ShareComment>
-          <PostButton>post</PostButton>
-        </ShareCreation>
-      </Content>
-    </Container>
+  const reset = (e) => {
+    setEditorText('')
+    props.handleClick(e)
+  }
+
+  return (
+    <>
+      {props.showModal === 'open' && (
+        <Container>
+          <Content>
+            <Header>
+              <h2>create a post</h2>
+              <button onClick={(event) => reset(event)}>
+                <CloseIcon />
+              </button>
+            </Header>
+            <SharedContact>
+              <UserInfo>
+                <img src="/images/user.svg" alt="" />
+                <span>Name</span>
+              </UserInfo>
+              <Editor>
+                <textarea
+                  value={editorText}
+                  onChange={(e) => setEditorText(e.target.value)}
+                  placeholder="write a post"
+                  autoFocus={true}
+                ></textarea>
+              </Editor>
+            </SharedContact>
+
+            <ShareCreation>
+              <AttachAssets>
+                <AssetButton>
+                  {/* //icon */}
+                  <PhotoIcon />
+                </AssetButton>
+                <AssetButton>
+                  {/* //icon */}
+                  <MovieIcon />
+                </AssetButton>
+              </AttachAssets>
+              <ShareComment>
+                <AssetButton>
+                  {/* //icon */}
+                  <CommentIcon />
+                  Anyone
+                </AssetButton>
+              </ShareComment>
+              <PostButton>post</PostButton>
+            </ShareCreation>
+          </Content>
+        </Container>
+      )}
+    </>
   )
 }
 
@@ -153,6 +172,30 @@ const ShareComment = styled.div`
   }
 `
 
-const PostButton = styled.button``
+const PostButton = styled.button`
+  min-width: 60px;
+  border-radius: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: #0a66c2;
+  color: white;
+`
+
+const Editor = styled.div`
+  padding: 12px 24px;
+
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+  }
+
+  input {
+    width: 100%;
+    height: 35px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+`
 
 export default PostModel
