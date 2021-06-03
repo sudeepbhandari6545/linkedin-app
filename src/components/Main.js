@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PostModel from './PostModel'
 
 //material-icon
 import ThumbUpIcon from '@material-ui/icons/ThumbUp'
@@ -94,6 +95,7 @@ const Main = () => {
           </SocialAction>
         </Article>
       </div>
+      <PostModel />
     </Container>
   )
 }
