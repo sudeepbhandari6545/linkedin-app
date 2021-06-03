@@ -10,6 +10,17 @@ import CommentIcon from '@material-ui/icons/Comment'
 const PostModel = (props) => {
   const [editorText, setEditorText] = useState('')
 
+  const [shareImage, setShareImage] = useState('')
+
+  const handelChange = (e) => {
+    const image = e.target.files[0]
+    if (image === '' || image === undefined) {
+      alert(`not an image, the file is a ${typeof image}`)
+      return
+    }
+    setShareImage(image)
+  }
+
   const reset = (e) => {
     setEditorText('')
     props.handleClick(e)
@@ -37,7 +48,17 @@ const PostModel = (props) => {
                   onChange={(e) => setEditorText(e.target.value)}
                   placeholder="write a post"
                   autoFocus={true}
-                ></textarea>
+                />
+                <UploadImage>
+                  <input
+                    type="file"
+                    accept="image/gif,image/jpeg,image/png"
+                    name="image"
+                    id="file"
+                    style={{ display: 'none' }}
+                    onChange={handelChange}
+                  />
+                </UploadImage>
               </Editor>
             </SharedContact>
 
@@ -59,7 +80,7 @@ const PostModel = (props) => {
                   Anyone
                 </AssetButton>
               </ShareComment>
-              <PostButton>post</PostButton>
+              <PostButton disable={!editorText ? true : false}>post</PostButton>
             </ShareCreation>
           </Content>
         </Container>
@@ -77,6 +98,7 @@ const Container = styled.div`
   z-index: 9999;
   color: black;
   background-color: rgba(0, 0, 0, 0.8);
+  animation: faceIn 0.3s;
 `
 
 const Content = styled.div`
@@ -177,8 +199,11 @@ const PostButton = styled.button`
   border-radius: 20px;
   padding-left: 16px;
   padding-right: 16px;
-  background: #0a66c2;
-  color: white;
+  background: ${(props) => (props.disable ? 'rgba(0,0,0,0.8)' : '#0a66c2')};
+  color: ${(props) => (props.disable ? 'rgba(1,1,1,0.2)' : 'white')};
+  &:hover {
+    background: #084182;
+  }
 `
 
 const Editor = styled.div`
@@ -197,5 +222,6 @@ const Editor = styled.div`
     margin-bottom: 20px;
   }
 `
+const UploadImage = styled.div``
 
 export default PostModel
