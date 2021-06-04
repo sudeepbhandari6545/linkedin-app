@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import Reactplayer from 'react-player'
 
 //icons
 import CloseIcon from '@material-ui/icons/Close'
@@ -11,6 +12,8 @@ const PostModel = (props) => {
   const [editorText, setEditorText] = useState('')
 
   const [shareImage, setShareImage] = useState('')
+
+  const [videoLink, setVideoLink] = useState('')
 
   const handelChange = (e) => {
     const image = e.target.files[0]
@@ -58,6 +61,21 @@ const PostModel = (props) => {
                     style={{ display: 'none' }}
                     onChange={handelChange}
                   />
+                  <p>
+                    <label htmlFor="file">select for image to share</label>
+                  </p>
+                  {shareImage && <img src={URL.createObjectURL(shareImage)} />}
+                  <>
+                    <input
+                      type="text"
+                      placeholder="please input a video link"
+                      value={videoLink}
+                      onChange={(e) => setVideoLink(e.target.value)}
+                    />
+                    {videoLink && (
+                      <Reactplayer width={'100%'} url={videoLink} />
+                    )}
+                  </>
                 </UploadImage>
               </Editor>
             </SharedContact>
@@ -222,6 +240,11 @@ const Editor = styled.div`
     margin-bottom: 20px;
   }
 `
-const UploadImage = styled.div``
+const UploadImage = styled.div`
+  text-align: center;
+  img {
+    width: 100%;
+  }
+`
 
 export default PostModel
