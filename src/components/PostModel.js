@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Reactplayer from 'react-player'
-
+import { connect } from 'react-redux'
+import firebase from 'firebase'
+import { postArticleAPI } from '../action'
 //icons
 import CloseIcon from '@material-ui/icons/Close'
 import PhotoIcon from '@material-ui/icons/Photo'
@@ -15,6 +17,8 @@ const PostModel = (props) => {
 
   const [videoLink, setVideoLink] = useState('')
 
+  const [assetArea, setAssetArea] = useState('')
+
   const handelChange = (e) => {
     const image = e.target.files[0]
     if (image === '' || image === undefined) {
@@ -24,8 +28,17 @@ const PostModel = (props) => {
     setShareImage(image)
   }
 
+  const switchAssetArea = (area) => {
+    setShareImage('')
+    setVideoLink('')
+    setAssetArea(area)
+  }
+
   const reset = (e) => {
     setEditorText('')
+    setShareImage('')
+    setVideoLink('')
+    setAssetArea('')
     props.handleClick(e)
   }
 
@@ -42,8 +55,12 @@ const PostModel = (props) => {
             </Header>
             <SharedContact>
               <UserInfo>
-                <img src="/images/user.svg" alt="" />
-                <span>Name</span>
+                {props.user.photoUrl ? (
+                  <img src={props.user.photoUrl} />
+                ) : (
+                  <img src="/images/user.svg" alt="" />
+                )}
+                <span>{props.user.displayName}</span>
               </UserInfo>
               <Editor>
                 <textarea
@@ -52,41 +69,48 @@ const PostModel = (props) => {
                   placeholder="write a post"
                   autoFocus={true}
                 />
-                <UploadImage>
-                  <input
-                    type="file"
-                    accept="image/gif,image/jpeg,image/png"
-                    name="image"
-                    id="file"
-                    style={{ display: 'none' }}
-                    onChange={handelChange}
-                  />
-                  <p>
-                    <label htmlFor="file">select for image to share</label>
-                  </p>
-                  {shareImage && <img src={URL.createObjectURL(shareImage)} />}
-                  <>
+                {assetArea === 'image' ? (
+                  <UploadImage>
                     <input
-                      type="text"
-                      placeholder="please input a video link"
-                      value={videoLink}
-                      onChange={(e) => setVideoLink(e.target.value)}
+                      type="file"
+                      accept="image/gif,image/jpeg,image/png"
+                      name="image"
+                      id="file"
+                      style={{ display: 'none' }}
+                      onChange={handelChange}
                     />
-                    {videoLink && (
-                      <Reactplayer width={'100%'} url={videoLink} />
+                    <p>
+                      <label htmlFor="file">select for image to share</label>
+                    </p>
+                    {shareImage && (
+                      <img src={URL.createObjectURL(shareImage)} />
                     )}
-                  </>
-                </UploadImage>
+                  </UploadImage>
+                ) : (
+                  assetArea === 'media' && (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="please input a video link"
+                        value={videoLink}
+                        onChange={(e) => setVideoLink(e.target.value)}
+                      />
+                      {videoLink && (
+                        <Reactplayer width={'100%'} url={videoLink} />
+                      )}
+                    </>
+                  )
+                )}
               </Editor>
             </SharedContact>
 
             <ShareCreation>
               <AttachAssets>
-                <AssetButton>
+                <AssetButton onClick={() => switchAssetArea('image')}>
                   {/* //icon */}
                   <PhotoIcon />
                 </AssetButton>
-                <AssetButton>
+                <AssetButton onClick={() => switchAssetArea('media')}>
                   {/* //icon */}
                   <MovieIcon />
                 </AssetButton>
@@ -247,4 +271,12 @@ const UploadImage = styled.div`
   }
 `
 
-export default PostModel
+const mapStateToProps = (state) => {
+  return {
+    user: state.userState.user,
+  }
+}
+
+const mapDispatchToProps = (state) => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostModel)
