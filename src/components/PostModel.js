@@ -34,6 +34,23 @@ const PostModel = (props) => {
     setAssetArea(area)
   }
 
+  const postArticle = (e) => {
+    e.preventDefault()
+    if (e.target !== e.currentTarget) {
+      return
+    }
+
+    const payload = {
+      image: shareImage,
+      video: videoLink,
+      user: props.user,
+      description: editorText,
+      timestamp: firebase.firestore.Timestamp.now(),
+    }
+    props.postArticle(payload)
+    reset(e)
+  }
+
   const reset = (e) => {
     setEditorText('')
     setShareImage('')
@@ -122,7 +139,12 @@ const PostModel = (props) => {
                   Anyone
                 </AssetButton>
               </ShareComment>
-              <PostButton disable={!editorText ? true : false}>post</PostButton>
+              <PostButton
+                disable={!editorText ? true : false}
+                onClick={(event) => postArticle(event)}
+              >
+                post
+              </PostButton>
             </ShareCreation>
           </Content>
         </Container>
@@ -277,6 +299,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (state) => ({})
+const mapDispatchToProps = (dispatch) => ({
+  postArticle: (payload) => dispatch(postArticleAPI(payload)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostModel)

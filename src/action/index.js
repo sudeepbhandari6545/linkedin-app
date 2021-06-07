@@ -53,9 +53,9 @@ export function postArticleAPI(payload) {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
 
-          console.log(`progress: $(progress)%`)
+          console.log(`progress: ${progress}%`)
           if (snapshot.state === 'RUNNING') {
-            console.log(`progress: $(progress)%`)
+            console.log(`progress: ${progress}%`)
           }
         },
         (error) => console.log(error.code),
