@@ -7,7 +7,7 @@ export const setUser = (payload) => ({
   user: payload,
 })
 
-export const setLoading = (state) => ({
+export const setLoading = (status) => ({
   type: SET_LOADING_STATUS,
   status: status,
 })
@@ -79,6 +79,7 @@ export function postArticleAPI(payload) {
             comments: 0,
             description: payload.description,
           })
+          dispatch(setLoading(false))
         },
       )
     } else if (payload.video) {
@@ -94,6 +95,7 @@ export function postArticleAPI(payload) {
         comments: 0,
         description: payload.description,
       })
+      dispatch(setLoading(false))
     }
   }
 }
